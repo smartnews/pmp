@@ -1,4 +1,3 @@
-import OpenAI from "openai";
 import { FormSchema, ProviderSettingsDefinition } from "../types";
 import { GaiToolkit } from "./gai-tool-kit";
 // import * as gaiPrompt from "~/lib/gai-client/gaiPrompt";
@@ -20,39 +19,7 @@ const defaultSettings: OpenAIProviderSettings = {
   // presence_penalty: 0,
 };
 
-const latestModels = [
-  "gpt-4o",
-  "gpt-4o-mini",
-  "gpt-4.1",
-  "gpt-4.1-mini",
-  "gpt-4.1-nano",
-  "claude-3-haiku-20240307",
-  "claude-3-sonnet-20240229",
-  "claude-3-opus-20240229",
-  "claude-3-haiku-20240307-bedrock",
-  "claude-3-sonnet-20240229-bedrock",
-  "claude-3-opus-20240229-bedrock",
-  "claude-3-5-haiku-20241022-bedrock",
-  "claude-3-5-haiku-20241022",
-  "claude-3-5-sonnet-20240620-bedrock",
-  "claude-3-5-sonnet-20240620",
-  "claude-3-7-sonnet-20250219-bedrock",
-  "claude-3-7-sonnet-20250219",
-  "claude-sonnet-4-20250514-bedrock",
-  "claude-sonnet-4-20250514",
-  "claude-opus-4-20250514-bedrock",
-  "claude-opus-4-20250514",
-  "gemini-2.0-flash-001",
-  "gemini-2.5-pro",
-  "gemini-2.5-flash",
-  "gpt-4o-mini-azure",
-  "gpt-4o-azure",
-  "gpt-4.1-azure",
-  "deepseek-r1",
-  "gemini-2.0-flash-google-genai",
-  "gemini-2.5-flash-google-genai",
-  "gemini-2.5-pro-google-genai"
-];
+const latestModels = Object.keys(gptModels);
 
 export const GenerateFormSchema = (
   settings: OpenAIProviderSettings
@@ -64,7 +31,7 @@ export const GenerateFormSchema = (
     label: model,
   }));
 
-  const maxResponseTokensValue = gptModels[settings.model].maxTokens;
+  const maxResponseTokensValue = gptModels[settings.model]?.maxTokens ?? 4096;;
 
   return [
     {
