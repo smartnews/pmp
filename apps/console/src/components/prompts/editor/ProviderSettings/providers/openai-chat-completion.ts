@@ -1,3 +1,4 @@
+import OpenAI from "openai";
 import { FormSchema, ProviderSettingsDefinition } from "../types";
 import { GaiToolkit } from "./gai-tool-kit";
 // import * as gaiPrompt from "~/lib/gai-client/gaiPrompt";
