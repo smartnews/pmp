@@ -134,7 +134,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: postgres
           skaffold_use_cluster_profile: true
           requires:
@@ -151,7 +151,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: clickhouse
           skaffold_use_cluster_profile: true
           requires:
@@ -168,7 +168,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: supertokens
           skaffold_use_cluster_profile: true
           requires:
@@ -185,7 +185,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: redis
 #          resourceClass: large
           skaffold_use_cluster_profile: true
