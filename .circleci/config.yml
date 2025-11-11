@@ -54,7 +54,7 @@ commands:
             export PIPELINE_SK_CHECK_CONFIG_FILES=false
             export PIPELINE_SK_USE_CLUSTER_PROFILE=true
             export PIPELINE_SK_SKIP_VERSION_CONFIG=true
-            spaas skaffold build --aws-account << parameters.env >> --region << parameters.region >> --cluster << parameters.cluster >> --system realtime-streaming --component << parameters.component >> --target '' --path ''
+            spaas skaffold build --aws-account << parameters.env >> --region << parameters.region >> --cluster << parameters.cluster >> --system gai-platform --component << parameters.component >> --target '' --path ''
 
   skaffold-run:
     parameters:
