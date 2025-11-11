@@ -1,4 +1,4 @@
-namespace: realtime-streaming
+namespace: gai-platform
 resources:
   - postgres-deployment.yaml
   - postgres-service.yaml

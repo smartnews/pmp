@@ -1,4 +1,4 @@
-namespace: realtime-streaming
+namespace:gai-platform
 resources:
   - pezzo-server-deployment.yaml
   - pezzo-server-service.yaml
