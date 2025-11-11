@@ -83,8 +83,8 @@ commands:
             export PIPELINE_SK_CHECK_CONFIG_FILES=false
             export PIPELINE_SK_USE_CLUSTER_PROFILE=true
             export PIPELINE_SK_SKIP_VERSION_CONFIG=true
-            spaas skaffold build --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system realtime-streaming --component '' --target << parameters.component >>
-            spaas skaffold run --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system realtime-streaming --component '' --target << parameters.component >>
+            spaas skaffold build --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system gai-platform --component '' --target << parameters.component >>
+            spaas skaffold run --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system gai-platform --component '' --target << parameters.component >>
 
 jobs:
   deploy:
