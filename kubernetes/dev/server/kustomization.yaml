@@ -1,4 +1,4 @@
-namespace: gai-platform
+namespace: realtime-streaming
 
 resources:
   - ../../base/server

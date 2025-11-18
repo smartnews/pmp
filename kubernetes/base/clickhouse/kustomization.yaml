@@ -1,4 +1,4 @@
-namespace: gai-platform
+namespace: realtime-streaming
 resources:
   - clickhouse-deployment.yaml
   - clickhouse-service.yaml

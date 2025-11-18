@@ -203,7 +203,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: gai-platform
+          system: realtime-streaming
           target: local-kms
           skaffold_use_cluster_profile: true
           requires:
@@ -220,7 +220,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: gai-platform
+          system: realtime-streaming
           target: server
           skaffold_use_cluster_profile: true
           requires:
@@ -237,7 +237,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: gai-platform
+          system: realtime-streaming
           target: console
           skaffold_use_cluster_profile: true
           requires:
@@ -254,7 +254,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: gai-platform
+          system: realtime-streaming
           target: proxy
           skaffold_use_cluster_profile: true
           requires:
@@ -271,7 +271,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: gai-platform
+          system: realtime-streaming
           target: prisma-migrate
           skaffold_use_cluster_profile: true
           requires:
@@ -288,7 +288,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: gai-platform
+          system: realtime-streaming
           target: clickhouse-migrate
           skaffold_use_cluster_profile: true
           requires:
