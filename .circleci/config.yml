@@ -2,12 +2,10 @@ version: 2.1
 
 orbs:
   gradle: smartnews/gradle@3
-  terraform: smartnews/terraform@1
   kubernetes: smartnews/kubernetes@3
 
 orb_dockers:
   gradle: &orb_docker_gradle 165463520094.dkr.ecr.ap-northeast-1.amazonaws.com/circleci-orbs/gradle:8.0-3
-  terraform: &orb_docker_terraform 165463520094.dkr.ecr.ap-northeast-1.amazonaws.com/circleci-orbs/terraform:1.3-2
   kubernetes: &orb_docker_kubernetes 165463520094.dkr.ecr.ap-northeast-1.amazonaws.com/circleci-orbs/kubernetes:3
 
 executors:
@@ -54,7 +52,7 @@ commands:
             export PIPELINE_SK_CHECK_CONFIG_FILES=false
             export PIPELINE_SK_USE_CLUSTER_PROFILE=true
             export PIPELINE_SK_SKIP_VERSION_CONFIG=true
-            spaas skaffold build --aws-account << parameters.env >> --region << parameters.region >> --cluster << parameters.cluster >> --system realtime-streaming --component << parameters.component >> --target '' --path ''
+            spaas skaffold build --aws-account << parameters.env >> --region << parameters.region >> --cluster << parameters.cluster >> --system gai-platform --component << parameters.component >> --target '' --path ''
 
   skaffold-run:
     parameters:
@@ -83,8 +81,8 @@ commands:
             export PIPELINE_SK_CHECK_CONFIG_FILES=false
             export PIPELINE_SK_USE_CLUSTER_PROFILE=true
             export PIPELINE_SK_SKIP_VERSION_CONFIG=true
-            spaas skaffold build --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system realtime-streaming --component '' --target << parameters.component >>
-            spaas skaffold run --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system realtime-streaming --component '' --target << parameters.component >>
+            spaas skaffold build --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system gai-platform --component '' --target << parameters.component >>
+            spaas skaffold run --aws-account << parameters.env >> --env '' --region << parameters.region >> --cluster << parameters.cluster >> --namespace '' --system gai-platform --component '' --target << parameters.component >>
 
 jobs:
   deploy:
@@ -134,7 +132,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: postgres
           skaffold_use_cluster_profile: true
           requires:
@@ -151,7 +149,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: clickhouse
           skaffold_use_cluster_profile: true
           requires:
@@ -168,7 +166,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: supertokens
           skaffold_use_cluster_profile: true
           requires:
@@ -185,7 +183,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: redis
 #          resourceClass: large
           skaffold_use_cluster_profile: true
@@ -203,7 +201,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: local-kms
           skaffold_use_cluster_profile: true
           requires:
@@ -220,7 +218,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: server
           skaffold_use_cluster_profile: true
           requires:
@@ -237,7 +235,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: console
           skaffold_use_cluster_profile: true
           requires:
@@ -254,7 +252,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: proxy
           skaffold_use_cluster_profile: true
           requires:
@@ -271,7 +269,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: prisma-migrate
           skaffold_use_cluster_profile: true
           requires:
@@ -288,7 +286,7 @@ workflows:
           env: ""
           region: tokyo
           cluster: common-0
-          system: realtime-streaming
+          system: gai-platform
           target: clickhouse-migrate
           skaffold_use_cluster_profile: true
           requires:
@@ -427,53 +425,11 @@ workflows:
           requires:
             - approve/clickhouse-migrate
 
-  terraform-trigger:
-    when: << pipeline.parameters.workflow_main >>
-    jobs:
-#      - terraform/trigger:
-#          docker: *orb_docker_terraform
-#          name: terraform/trigger/dev
-#          system: realtime-streaming
-#          path: .
-      - terraform/trigger:
-          docker: *orb_docker_terraform
-          name: terraform/trigger/prd
-          system: realtime-streaming
-          aws_account: prd
-          path: .
-  terraform:
-    when: << pipeline.parameters.workflow_terraform >>
-    jobs:
-      - terraform/plan:
-          <<: *master-filter
-          docker: *orb_docker_terraform
-          name: << pipeline.parameters.path >>/<< pipeline.parameters.aws_account >>/<< pipeline.parameters.region >>/plan
-          system: << pipeline.parameters.system >>
-          path: << pipeline.parameters.path >>
-          aws_account: << pipeline.parameters.aws_account >>
-      - approve:
-          <<: *master-filter
-          name: << pipeline.parameters.path >>/<< pipeline.parameters.aws_account >>/<< pipeline.parameters.region >>/approve
-          type: approval
-          requires:
-            - << pipeline.parameters.path >>/<< pipeline.parameters.aws_account >>/<< pipeline.parameters.region >>/plan
-      - terraform/apply:
-          <<: *master-filter
-          docker: *orb_docker_terraform
-          name: << pipeline.parameters.path >>/<< pipeline.parameters.aws_account >>/<< pipeline.parameters.region >>/apply
-          system: << pipeline.parameters.system >>
-          path: << pipeline.parameters.path >>
-          aws_account: << pipeline.parameters.aws_account >>
-          requires:
-            - << pipeline.parameters.path >>/<< pipeline.parameters.aws_account >>/<< pipeline.parameters.region >>/approve
 
 parameters:
   workflow_main:
     type: boolean
     default: true
-  workflow_terraform:
-    type: boolean
-    default: false
   env:
     type: string
     default: ""

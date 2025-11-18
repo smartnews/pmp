@@ -1,4 +1,4 @@
-namespace: realtime-streaming
+namespace: gai-platform
 resources:
   - redis-stack-server-deployment.yaml
   - redis-stack-server-service.yaml
