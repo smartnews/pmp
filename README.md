@@ -1,30 +1,9 @@
-<p align="center">
+# Prompt Management Platform
 
-  <h1 align="center">
-  <a href="https://pezzo.ai/#gh-light-mode-only" target="_blank">
-    <img src="https://cdn.pezzo.ai/logo-light-mode.svg" alt="logo" width="150">
-  </a>
+- User Manual = https://www.notion.so/User-Manual-LLM-d49c811d16ff4f1db415830b3f5a04b2
+- Dev Setup Guide = https://www.notion.so/LLM-Ops-Platform-Support-Guide-fc0d97a1fd6244cfa5f1b74a97300f82
 
-  <a href="https://pezzo.ai/#gh-dark-mode-only" target="_blank">
-    <img src="https://cdn.pezzo.ai/logo-dark-mode.svg"" alt="logo" width="150">
-  </a>
-  </h1>
-</p>
 
-<p align="center">
-  <strong>
-    Pezzo is a fully cloud-native and open-source LLMOps platform. Seamlessly observe and monitor your AI operations, troubleshoot issues, save up to 90% on costs and latency, collaborate and manage your prompts in one place, and instantly deliver AI changes.
-  </strong><br/><br/>
-  <a href="https://pezzo.cc/discord" target="_blank">
-    <img src="https://cdn.pezzo.ai/discord-button.png" height="32" />
-  </a>&nbsp;
-  <a href="https://pezzo.cc/3qzMpGb" target="_blank">
-    <img src="https://cdn.pezzo.ai/read-the-docs-button.png"" height="32" />
-  </a>&nbsp;
-  <a href="https://pezzo.cc/3qy415j" target="_blank">
-    <img src="https://cdn.pezzo.ai/pezzo-cloud-button.png"" height="32" />
-  </a>&nbsp;
-</p>
 
 <p align="center">
 <img src="https://github.com/pezzolabs/pezzo/actions/workflows/ci.yaml/badge.svg" />

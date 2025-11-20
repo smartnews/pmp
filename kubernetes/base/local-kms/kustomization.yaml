@@ -1,4 +1,4 @@
-namespace: realtime-streaming
+namespace: gai-platform
 resources:
   - local-kms-deployment.yaml
   - local-kms-service.yaml
