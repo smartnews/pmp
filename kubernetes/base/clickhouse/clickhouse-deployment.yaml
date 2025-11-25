@@ -58,6 +58,21 @@ spec:
             - mountPath: /etc/clickhouse-server/config.d/config.xml
               name: clickhouse-claim3
       restartPolicy: Always
+      tolerations:
+        - key: nodepool-version.spaas.smartnews.net/v2
+          operator: Exists
+          effect: NoSchedule
+        - key: addon.spaas.smartnews.net/datadog
+          operator: Exists
+          effect: NoSchedule
+        - key: pricing.spaas.smartnews.net/ondemand
+          operator: Exists
+          effect: NoSchedule
+      nodeSelector:
+        nodepool-version.spaas.smartnews.net/v2: "true"
+        addon.spaas.smartnews.net/datadog: "true"
+        kubernetes.io/arch: "amd64"
+        pricing.spaas.smartnews.net/ondemand: "true"
       volumes:
         - name: clickhouse-claim0
           persistentVolumeClaim:
