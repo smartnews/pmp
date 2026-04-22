@@ -1,6 +1,5 @@
 # Prompt Management Platform
 
-test
 
 - User Manual = https://www.notion.so/User-Manual-LLM-d49c811d16ff4f1db415830b3f5a04b2
 - Dev Setup Guide = https://www.notion.so/LLM-Ops-Platform-Support-Guide-fc0d97a1fd6244cfa5f1b74a97300f82
