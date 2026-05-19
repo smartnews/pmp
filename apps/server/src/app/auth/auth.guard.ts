@@ -54,34 +54,13 @@ export class AuthGuard implements CanActivate {
     req["supertokensUser"] = supertokensUser;
 
     if (!supertokensUser.email || supertokensUser.email === "null") {
-      // throw new UnauthorizedException("User email is null");
-      reqUser = {
-        id: null,
-        supertokensUserId: null,
-        email: null,
-        orgMemberships: [],
-      };
-      req["user"] = reqUser;
-      this.logger.assign({ userId: reqUser.id });
-      req.authMethod = AuthMethod.BearerToken;
-      return true;
+      throw new UnauthorizedException("User email is null");
     }
 
     const user = await this.usersService.getUser(supertokensUser.email, false);
 
     if (!user) {
-      // throw new UnauthorizedException("User not found");
-      reqUser = {
-        id: null,
-        supertokensUserId: null,
-        email: supertokensUser.email,
-        orgMemberships: [],
-      };
-      this.logger.info("======req user: " + JSON.stringify(reqUser));
-      req["user"] = reqUser;
-      this.logger.assign({ userId: reqUser.id });
-      req.authMethod = AuthMethod.BearerToken;
-      return true;
+      throw new UnauthorizedException("User not found");
     } else {
       const memberships = await this.usersService.getUserOrgMemberships(
         supertokensUser.email
