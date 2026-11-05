@@ -4,13 +4,18 @@ metadata:
   name: llm-ops-console-ingress
   annotations:
     kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/security-groups: sg-000585038d75e638e,sg-0076cb5e92a093750
+    # Internal-only since the 2026-11 exposure review: nothing internet-facing. Callers (gai-api-backend,
+    # article-ml-analysis-interface) run inside common-0 and keep using https://llm-ops.smartnews.net, which
+    # external-dns repoints to the internal ALB's private addresses. AWS can't change a scheme in place, so
+    # applying this replaces the ALB.
+    alb.ingress.kubernetes.io/scheme: internal
+    # spaas_sn_worker_node: private VPC ranges only. zscaler-news is dropped.
+    alb.ingress.kubernetes.io/security-groups: sg-0076cb5e92a093750
     alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
-#    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-1:226604077721:certificate/6b062dcc-c020-4580-bee0-34fd5a6a23a8
-    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    # The certificate the HTTPS listener already serves (*.smartnews.net), pinned instead of auto-discovered.
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-1:165463520094:certificate/8724ebb7-dd86-45c5-90a9-7f592f66fe53
     alb.ingress.kubernetes.io/tags: Env=production,Cost=smartnews,System=gai-platform,Component=llm-ops-console,Team=ai-infrastructure
     # /ping is a 404 on this server, so the target was never healthy: the pod never became Ready and the ALB only
     # served it by failing open. /api/healthz answers 200.
@@ -20,32 +25,17 @@ metadata:
     alb.ingress.kubernetes.io/load-balancer-attributes: access_logs.s3.enabled=true,access_logs.s3.bucket=smartnews-log,access_logs.s3.prefix=alb/llm-ops-prd
     external-dns.alpha.kubernetes.io/hostname: llm-ops.smartnews.net
     alb.ingress.kubernetes.io/ip-address-type: dualstack
-    alb.ingress.kubernetes.io/auth-session-timeout: '86400'
-    alb.ingress.kubernetes.io/actions.redirect-to-portal: >
-      {"type":"redirect","redirectConfig":{"host":"llm-ops-portal.smartnews.net","path":"/","port":"443","protocol":"HTTPS","query":"","statusCode":"HTTP_302"}}
 spec:
   rules:
     - host: llm-ops.smartnews.net
       http:
         paths:
-          - path: /api/
+          # Only the API-key-authenticated prompt API the callers read. /graphql (trusts an unsigned email header)
+          # and the console redirect are no longer routed; anything else gets the listener's default 404.
+          - path: /api/prompts/v2/
             pathType: Prefix
             backend:
               service:
                 name: llm-ops-server
                 port:
                   number: 3000
-          - path: /graphql
-            pathType: Prefix
-            backend:
-              service:
-                name: llm-ops-server
-                port:
-                  number: 3000
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: redirect-to-portal
-                port:
-                  name: use-annotation
