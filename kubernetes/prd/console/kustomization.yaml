@@ -4,3 +4,9 @@ resources:
   - ../../base/console
   - ./ingress.yaml
   - ./-env-configmap.yaml
+
+# The console is off since the 2026-11 exposure review (prompt editing is frozen until the move to Langfuse).
+# Keep it at 0 so a redeploy of this overlay doesn't bring it back.
+replicas:
+  - name: llm-ops-console
+    count: 0
